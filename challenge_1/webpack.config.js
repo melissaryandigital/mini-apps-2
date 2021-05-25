@@ -1,8 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const regeneratorRuntime = require("regenerator-runtime");
 
 module.exports = {
-  entry: './client/index.js',
+  mode: 'development',
+  entry: ['babel-polyfill', './client/index.js'],
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
@@ -11,6 +13,7 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/,
+        exclude: [/node_modules/],
         use: {
           loader: 'babel-loader',
           options: {
@@ -18,19 +21,19 @@ module.exports = {
           }
         }
       },
-      // {
-      //   test: /\.html$/i,
-      //   loader: 'html-loader',
-      // },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       }
     ]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Historical Events Finder',
-    }),
-  ]
+  }
+  // plugins: [
+  //   new HtmlWebpackPlugin({
+  //     title: 'Historical Events Finder',
+  //   }),
+  // ]
 };
