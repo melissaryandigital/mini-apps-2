@@ -1,9 +1,38 @@
-#react-paginate ul {
-  display: inline-block;
-  padding-left: 15px;
-  padding-right: 15px;
+body {
+  background-color: #000;
+  color: #fff;
+}
+.eventsBox {
+  padding: 4rem;
 }
 
-#react-paginate li {
+.eventsList {
+  padding: 2rem 2rem 2rem 0rem;
+}
+
+form {
+  padding: 2rem 2rem 2rem 0rem;
+}
+
+#app ul {
   display: inline-block;
+  padding-left: 0;
+}
+
+#app li {
+  display: inline-block;
+}
+
+input[type=submit]{
+  background-color: #337ab7;
+}
+
+input[type=text]{
+  width: 40rem;
+  color: black;
+}
+
+table td {
+  text-align: left;
+  padding-right: 2rem;
 }

@@ -3,51 +3,47 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 import $ from 'jquery';
+import Search from './components/Search.jsx';
+import EventList from './components/EventList.jsx';
+import css from './styles/styles.css';
 
 window.React = React;
-
-export class EventList extends Component {
-
-  render() {
-    let eventNodes = this.props.data.map(function (event, index) {
-      return (
-        <div>
-          <div key={index}></div>
-          <div>{event.description}</div>
-          <div style={{fontWeight:"bold"}}>{event.date}</div>
-        </div>
-      )
-    });
-
-    return (
-      <div id="project-comments" className="commentList">
-        <ul>{eventNodes}</ul>
-      </div>
-    );
-  }
-}
 
 export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      url: `http://localhost:3000/events?_page=1`,
       data: [],
+      query: '',
       page: 0,
       pageCount: 10
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  loadEventsFromServer(page) {
+  loadEventsFromServer(query, page) {
+
+    let searchQuery = this.state.url;
+
+    if (!page) {
+      let page = this.state.page;
+    }
+
+    if (query) {
+      searchQuery = `http://localhost:3000/events?q=${query}&_page=${page}`;
+    }
+
     $.ajax({
-      url: `http://localhost:3000/events?&_page=${page}`,
+      url: searchQuery,
       dataType: 'json',
       type: 'GET',
 
       success: (data) => {
-        console.log(data);
         this.setState({
           data: data,
-          page: page
+          page: page || 1
         });
       },
 
@@ -61,9 +57,23 @@ export class App extends Component {
     this.loadEventsFromServer();
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    let searchQuery = e.target.value;
+    this.setState({ query: searchQuery }, () => {
+      this.loadEventsFromServer(searchQuery, 1);
+    });
+  }
+
+  handleChange(e) {
+    let searchQuery = e.target.value;
+    this.setState({ query: searchQuery }, () => {
+      this.loadEventsFromServer(searchQuery, this.state.page);
+    });
+  }
+
   handlePageClick = (data) => {
     let selected = data.selected + 1;
-    console.log(selected);
 
     this.setState({ page: selected }, () => {
       this.loadEventsFromServer(selected);
@@ -72,7 +82,10 @@ export class App extends Component {
 
   render() {
     return (
-      <div className="commentBox">
+
+      <div className="eventsBox">
+        <h1>Historical Events Finder</h1>
+        <Search query={this.state.query} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
         <EventList data={this.state.data} />
         <ReactPaginate
           previousLabel={'previous'}
