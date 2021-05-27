@@ -10,6 +10,15 @@
   },
   "author": "Melissa Ryan",
   "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "babel-loader": "^8.2.2",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "react": "^17.0.2",
+    "react-chartjs-2": "^3.0.3",
+    "react-dom": "^17.0.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.14.3",
     "@babel/core": "^7.14.3",
@@ -21,14 +30,5 @@
     "style-loader": "^2.0.0",
     "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0"
-  },
-  "dependencies": {
-    "axios": "^0.21.1",
-    "babel-loader": "^8.2.2",
-    "express": "^4.17.1",
-    "nodemon": "^2.0.7",
-    "react": "^17.0.2",
-    "react-chartjs-2": "^3.0.3",
-    "react-dom": "^17.0.2"
   }
 }
