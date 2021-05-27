@@ -1,50 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <title>Crytpocurrency Charting Tool</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="theme-color" content="#000000">
   <script defer src="bundle.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<title>React App</title>
 </head>
 
 <body>
+	<noscript>
+		You need to enable JavaScript to run this app.
+	</noscript>
+	<div id="app"></div>
 
-  <div id="app"></div>
-  <div>
-    <canvas id="myChart"></canvas>
-  </div>
-  <p class="coindesk"><a href="https://www.coindesk.com/price/bitcoin">Powered by CoinDesk</a></p>
-  <script>
-
-    const labels = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-    ];
-    const data = {
-      labels: labels,
-      datasets: [{
-        label: 'My First dataset',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: [0, 10, 5, 2, 20, 30, 45],
-      }]
-    };
-
-    const config = {
-      type: 'line',
-      data,
-      options: {}
-    };
-
-    var myChart = new Chart(
-      document.getElementById('myChart'),
-      config
-    );
-
-  </script>
 </body>
 
 </html>
