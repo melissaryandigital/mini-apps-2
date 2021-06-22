@@ -1,0 +1,29 @@
+{
+  "scripts": {
+    "react-dev": "webpack -w",
+    "start": "node server.js"
+  },
+  "name": "bowling",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Melissa Ryan",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-react": "^7.14.5",
+    "css-loader": "^5.2.6",
+    "nodemon": "^2.0.7",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.40.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "babel-loader": "^8.2.2",
+    "express": "^4.17.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
