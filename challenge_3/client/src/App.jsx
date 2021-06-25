@@ -11,18 +11,17 @@ export class App extends React.Component {
     super(props);
     this.state = {
       pinsLeft: 10,
-      total: 0,
       score: [
-        { frame: 1, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 },
-        { frame: 2, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 },
-        { frame: 3, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 },
-        { frame: 4, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 },
-        { frame: 5, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 },
-        { frame: 6, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 },
-        { frame: 7, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 },
-        { frame: 8, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 },
-        { frame: 9, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 },
-        { frame: 10, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, cumulative: 0 }
+        { frame: 1, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 2, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 3, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 4, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 5, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 6, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 7, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 8, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 9, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 10, r1: 0, r2: 0, r3: 0, r4: 0, strike: false, spare: false, bonus: 0, frameScore: 0 }
       ],
       currentFrame: 1,
       currentRoll: 1,
@@ -49,8 +48,7 @@ export class App extends React.Component {
   }
 
   updatePinsLeft(pins) {
-    let pinsLeft = this.state.pinsLeft;
-    let newPins = pinsLeft - pins;
+    let newPins = this.state.pinsLeft - pins;
     this.setState(
       { pinsLeft: newPins }
     );
@@ -58,16 +56,13 @@ export class App extends React.Component {
 
   updateFrameScore(pinsHit) {
     let updatedScore = this.state.score;
-    let total = this.state.total;
 
     if (this.state.currentRoll === 1) {
       updatedScore[this.state.currentFrame - 1].r1 = pinsHit;
-      total += pinsHit;
     }
 
     if (this.state.currentRoll === 2) {
       updatedScore[this.state.currentFrame - 1].r2 = pinsHit;
-      total += pinsHit;
     }
   }
 
@@ -88,51 +83,61 @@ export class App extends React.Component {
     });
   }
 
+  handleStrikeSeries() {
+    let score = this.state.score;
+    for (var i = 0; i < 10; i++) {
+      if (score[i].strike && score[i+1].strike) {
+        score[i].bonus += 10
+      }
+    }
+    this.setState({
+      scores: score
+    })
+  }
+
   updateCumulativeScore(pinsHit) {
     let scores = this.state.score;
     let currentRoll = this.state.currentRoll;
     let pinsLeft = this.state.pinsLeft;
     let frame = this.state.currentFrame - 1;
-    let total = this.state.total;
-    let lastCumulative;
 
-    // Calculates bonuses
+    // Calculates bonuses and cumulative score for each frame
     for (var i = 0; i < 10; i++) {
 
       if (scores[i].strike === true) {
-        scores[i].bonus = 10 + scores[i + 1].r1 + scores[i + 1].r2;
-      }
-
-      if (scores[i].spare === true) {
-        scores[i].bonus = scores[i + 1].r1;
+        // Strikes
+        // First frame
+        if (i === 0) {
+          scores[i].bonus = scores[i + 1].r1 + scores[i + 1].r2;
+          scores[i].frameScore = scores[i].r1 + scores[i].r2 + scores[i].bonus;
+        } else {
+          // If last frame was not a strike
+          scores[i].bonus = scores[i + 1].r1 + scores[i + 1].r2;
+          scores[i].frameScore = scores[i].r1 + scores[i].r2 + scores[i - 1].frameScore + scores[i].bonus;
+        }
+      } else if (scores[i].spare === true) {
+        // Spares
+        // First frame
+        if (frame === 0) {
+          scores[i].bonus = scores[i + 1].r1;
+          scores[i].frameScore = scores[i].r1 + scores[i].r2 + scores[i].bonus;
+        } else {
+          scores[i].bonus = scores[i + 1].r1;
+          scores[i].frameScore = 10 + scores[i - 1].frameScore + scores[i].bonus;
+        }
       }
     }
 
-    total += scores[frame].r1 + scores[frame].r2 + scores[frame].bonus;
-
-    if (frame === 0) {
-      scores[frame].cumulative = total;
-    } else {
-      scores[frame].cumulative = total + scores[frame - 1].cumulative;
+    // Score the current bowl for open frame
+    if (scores[frame].strike === false && scores[frame].spare === false) {
+      if (frame === 0) {
+        scores[frame].frameScore = scores[frame].r1 + scores[frame].r2;
+      } else {
+        scores[frame].frameScore = scores[frame].r1 + scores[frame].r2 + scores[frame - 1].frameScore;
+      }
     }
 
-
-    // Calculates cumulative
-
-
-    // scores.map((score, index) => {
-    //   if (score.frame === 1) {
-    //     score.cumulative = score.r1 + score.r2 + score.bonus;
-
-    //   } else if (score.frame === 10) {
-
-
-    //   } else {
-    //     score.cumulative = score.r1 + score.r2 + score.bonus + total;
-    //   }
-
-    // });
-
+    // Update score state
     this.setState({ score: scores });
   }
 
@@ -149,6 +154,7 @@ export class App extends React.Component {
     }
 
     // If strike or spare
+    // Start next frame, reset pins, reset currentRoll
     if (roll === 2 && this.state.pinsLeft || score[this.state.currentFrame - 1].strike === true) {
       this.setState(
         {
@@ -158,9 +164,6 @@ export class App extends React.Component {
         }
       );
     }
-  }
-
-  componentDidMount() {
   }
 
   render() {

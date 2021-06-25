@@ -45,16 +45,16 @@ const Scoreboard = ({score}) => {
         </thead>
         <tbody>
           <tr>
-            <td><div><span>{score[0].r1}</span><span>{score[0].r2}</span></div>{score[0].cumulative}</td>
-            <td><div><span>{score[1].r1}</span><span>{score[1].r2}</span></div>{score[1].cumulative}</td>
-            <td><div><span>{score[2].r1}</span><span>{score[2].r2}</span></div>{score[2].cumulative}</td>
-            <td><div><span>{score[3].r1}</span><span>{score[3].r2}</span></div>{score[3].cumulative}</td>
-            <td><div><span>{score[4].r1}</span><span>{score[4].r2}</span></div>{score[4].cumulative}</td>
-            <td><div><span>{score[5].r1}</span><span>{score[5].r2}</span></div>{score[5].cumulative}</td>
-            <td><div><span>{score[6].r1}</span><span>{score[6].r2}</span></div>{score[6].cumulative}</td>
-            <td><div><span>{score[7].r1}</span><span>{score[7].r2}</span></div>{score[7].cumulative}</td>
-            <td><div><span>{score[8].r1}</span><span>{score[8].r2}</span></div>{score[8].cumulative}</td>
-            <td><div><span>{score[9].r1}</span><span>{score[9].r2}</span></div>{score[9].cumulative}</td>
+            <td><div><span>{score[0].r1}</span><span>{score[0].r2}</span></div>{score[0].frameScore}</td>
+            <td><div><span>{score[1].r1}</span><span>{score[1].r2}</span></div>{score[1].frameScore}</td>
+            <td><div><span>{score[2].r1}</span><span>{score[2].r2}</span></div>{score[2].frameScore}</td>
+            <td><div><span>{score[3].r1}</span><span>{score[3].r2}</span></div>{score[3].frameScore}</td>
+            <td><div><span>{score[4].r1}</span><span>{score[4].r2}</span></div>{score[4].frameScore}</td>
+            <td><div><span>{score[5].r1}</span><span>{score[5].r2}</span></div>{score[5].frameScore}</td>
+            <td><div><span>{score[6].r1}</span><span>{score[6].r2}</span></div>{score[6].frameScore}</td>
+            <td><div><span>{score[7].r1}</span><span>{score[7].r2}</span></div>{score[7].frameScore}</td>
+            <td><div><span>{score[8].r1}</span><span>{score[8].r2}</span></div>{score[8].frameScore}</td>
+            <td><div><span>{score[9].r1}</span><span>{score[9].r2}</span></div>{score[9].frameScore}</td>
           </tr>
         </tbody>
       </Table>
