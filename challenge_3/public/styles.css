@@ -1,0 +1,16 @@
+body {
+  background-color: black;
+  color: white;
+  font-family: 'Raleway', sans-serif;
+}
+
+.container {
+  margin: auto;
+  width: fit-content;
+  margin-top: 100px;
+}
+
+h1 {
+  font-size: 62px;
+  text-align: center;
+}

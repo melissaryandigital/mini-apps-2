@@ -21,7 +21,9 @@ export class App extends React.Component {
         { frame: 7, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
         { frame: 8, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
         { frame: 9, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
-        { frame: 10, r1: 0, r2: 0, r3: 0, r4: 0, strike: false, spare: false, bonus: 0, frameScore: 0 }
+        { frame: 10, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 11, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 },
+        { frame: 12, r1: 0, r2: 0, strike: false, spare: false, bonus: 0, frameScore: 0 }
       ],
       currentFrame: 1,
       currentRoll: 1,
@@ -83,19 +85,7 @@ export class App extends React.Component {
     });
   }
 
-  handleStrikeSeries() {
-    let score = this.state.score;
-    for (var i = 0; i < 10; i++) {
-      if (score[i].strike && score[i+1].strike) {
-        score[i].bonus += 10
-      }
-    }
-    this.setState({
-      scores: score
-    })
-  }
-
-  updateCumulativeScore(pinsHit) {
+  updateCumulativeScore(pinsHit,) {
     let scores = this.state.score;
     let currentRoll = this.state.currentRoll;
     let pinsLeft = this.state.pinsLeft;
@@ -104,17 +94,40 @@ export class App extends React.Component {
     // Calculates bonuses and cumulative score for each frame
     for (var i = 0; i < 10; i++) {
 
+
+
+
       if (scores[i].strike === true) {
         // Strikes
         // First frame
         if (i === 0) {
-          scores[i].bonus = scores[i + 1].r1 + scores[i + 1].r2;
+          // if next 2 frames are strikes
+          if (scores[i + 1].strike && scores[i + 2].strike) {
+            scores[i].bonus = 20;
+            // else if the next frame only is a strike
+          } else if (scores[i + 1].strike) {
+            scores[i].bonus = 10;
+          } else {
+            // if next frame is not a strike
+            scores[i].bonus = scores[i + 1].r1 + scores[i + 1].r2;
+          }
+          // Calculate frame score
           scores[i].frameScore = scores[i].r1 + scores[i].r2 + scores[i].bonus;
         } else {
-          // If last frame was not a strike
-          scores[i].bonus = scores[i + 1].r1 + scores[i + 1].r2;
+          // if next 2 frames are strikes
+          if (scores[i + 1].strike && scores[i + 2].strike) {
+            scores[i].bonus = 20;
+            // else if the next frame only is a strike
+          } else if (scores[i + 1].strike) {
+            scores[i].bonus = 10;
+          } else {
+            // if next frame is not a strike
+            scores[i].bonus = scores[i + 1].r1 + scores[i + 1].r2;
+          }
+          // Calculate frame score
           scores[i].frameScore = scores[i].r1 + scores[i].r2 + scores[i - 1].frameScore + scores[i].bonus;
         }
+
       } else if (scores[i].spare === true) {
         // Spares
         // First frame
@@ -122,6 +135,7 @@ export class App extends React.Component {
           scores[i].bonus = scores[i + 1].r1;
           scores[i].frameScore = scores[i].r1 + scores[i].r2 + scores[i].bonus;
         } else {
+          console.log(scores[0].frameScore);
           scores[i].bonus = scores[i + 1].r1;
           scores[i].frameScore = 10 + scores[i - 1].frameScore + scores[i].bonus;
         }
@@ -168,11 +182,11 @@ export class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Bowling</h1>
         <Scoreboard score={this.state.score} />
-        {/* <Status pinsLeft={this.state.pinsLeft} /> */}
-        <RollerNums handleClick={this.handleClick} />
+        <Status currentFrame={this.state.currentFrame} currentRoll={this.state.currentRoll} />
+        <RollerNums pinsLeft={this.state.pinsLeft} handleClick={this.handleClick} />
       </div>
     )
   }

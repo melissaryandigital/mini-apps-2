@@ -1,42 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import { times } from 'lodash';
 
 const Table = styled.table`
-  background-color:black;
+  background-color:darkgray;
   font-size: 32px;
   color: white;
-  border: border-collapse;
+  border-collapse: collapse;
+  margin-top: 30px;
 
-  > * > tr > td {k
+
+  > * > tr > td {
     width: 20px;
     height: 60px;
     padding: 10px;
     cursor: pointer;
+    border: 1px solid white;
   }
 `;
 
-const RollerNums = (props) => {
+const RollerNums = ({pinsLeft, handleClick}) => {
+
+  let boardFrames = [];
+  _.times(pinsLeft + 1, (i) => {
+    boardFrames.push(<td value={i} onClick={(e) => { handleClick(e); }}>{i}</td>);
+  });
+
   return (
+    <div>
+      <h3>Pick number of pins to knock down:</h3>
     <Table>
       <thead>
       </thead>
       <tbody>
         <tr>
-          <td value="0" onClick={(e) => { props.handleClick(e); }}>0</td>
-          <td value="1" onClick={(e) => { props.handleClick(e); }}>1</td>
-          <td value="2" onClick={(e) => { props.handleClick(e); }}>2</td>
-          <td value="3" onClick={(e) => { props.handleClick(e); }}>3</td>
-          <td value="4" onClick={(e) => { props.handleClick(e); }}>4</td>
-          <td value="5" onClick={(e) => { props.handleClick(e); }}>5</td>
-          <td value="6" onClick={(e) => { props.handleClick(e); }}>6</td>
-          <td value="7" onClick={(e) => { props.handleClick(e); }}>7</td>
-          <td value="8" onClick={(e) => { props.handleClick(e); }}>8</td>
-          <td value="9" onClick={(e) => { props.handleClick(e); }}>9</td>
-          <td value="10" onClick={(e) => { props.handleClick(e); }}>10</td>
+          {boardFrames}
         </tr>
       </tbody>
     </Table>
+    </div>
   )
 }
 export default RollerNums;
