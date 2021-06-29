@@ -105,7 +105,7 @@ export class App extends React.Component {
     }
 
     // If it's the 10th frame and open frame
-    if (this.state.currentFrame === 10 && scores[9].strike === false && scores[9].spare === false) {
+    if (this.state.currentFrame === 10 && this.state.currentRoll === 2 && scores[9].strike === false && scores[9].spare === false) {
       this.setState({
         gameOver: true
       })
