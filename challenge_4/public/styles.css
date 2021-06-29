@@ -1,0 +1,94 @@
+body {
+  background-color: #50755E;
+  margin: 0;
+  padding: 0;
+  font-family: 'Monda', sans-serif;
+}
+
+.app {
+  margin: auto;
+  margin-top: 80px;
+  margin-bottom: 10px;
+  min-height:600px;
+  position:relative;
+}
+
+h1 {
+  text-align: center;
+  margin: 10px 0px;
+  font-size: 60px;
+}
+
+.container {
+  margin: auto;
+  width: fit-content;
+}
+
+.button-wrapper {
+  margin:0 auto;
+  width: 200px;
+}
+
+button {
+  width:200px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 20px 0px;
+  font-family: 'Monda', sans-serif;
+  font-size: 20px;
+}
+
+button:hover {
+  background-color: black;
+  color: white;
+}
+
+.minefield {
+  list-style-type: none;
+  margin: auto;
+  width: auto;
+  padding: 10px;
+}
+
+.col {
+  display: inline-block;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+}
+
+.cell {
+  background-color:#506675;
+  color: #506675;
+  text-align: center;
+  border: 1px solid black;
+  width: 46px;
+  height: 46px;
+  font-size: 32px;
+}
+
+.cell.revealed.true {
+  color: red;
+  background-color: black;
+}
+.cell:hover {
+  background-color: #507571;
+  color: #507571;
+  cursor: pointer;
+}
+
+.revealed {
+  color: black;
+  background-color: #50C878;
+  border: 1px solid black;
+}
+
+.revealed:hover {
+  color: black;
+  background-color: #50C878;
+  border: 1px solid black;
+}
