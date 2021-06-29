@@ -20,7 +20,7 @@ const Table = styled.table`
   }
 `;
 
-const RollerNums = ({pinsLeft, handleClick}) => {
+const RollerNums = ({pinsLeft, handleClick, gameOver}) => {
 
   let boardFrames = [];
   _.times(pinsLeft + 1, (i) => {
@@ -35,7 +35,7 @@ const RollerNums = ({pinsLeft, handleClick}) => {
       </thead>
       <tbody>
         <tr>
-          {boardFrames}
+          {gameOver ? <button onClick={(e) => { location.reload(); }}>START NEW GAME</button> : boardFrames}
         </tr>
       </tbody>
     </Table>

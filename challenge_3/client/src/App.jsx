@@ -35,6 +35,7 @@ export class App extends React.Component {
     this.checkForSpareStrike = this.checkForSpareStrike.bind(this);
     this.updateCumulativeScore = this.updateCumulativeScore.bind(this);
     this.updateRollAndFrame = this.updateRollAndFrame.bind(this);
+    this.checkGameStatus = this.checkGameStatus.bind(this);
   }
 
   handleClick(e) {
@@ -47,6 +48,7 @@ export class App extends React.Component {
     this.checkForSpareStrike();
     this.updateCumulativeScore(pinsHit);
     this.updateRollAndFrame();
+    this.checkGameStatus();
   }
 
   updatePinsLeft(pins) {
@@ -85,7 +87,32 @@ export class App extends React.Component {
     });
   }
 
-  updateCumulativeScore(pinsHit,) {
+  checkGameStatus() {
+    // If there are extra rolls past 10th frame
+    let scores = this.state.score;
+
+    if (scores[9].frameScore === 300) {
+      this.setState({
+        gameOver: true
+      });
+    }
+
+    // If the last frame is a spare
+    if (this.state.currentFrame === 11 && scores[9].spare === true) {
+      this.setState({
+        gameOver: true
+      })
+    }
+
+    // If it's the 10th frame and open frame
+    if (this.state.currentFrame === 10 && scores[9].strike === false && scores[9].spare === false) {
+      this.setState({
+        gameOver: true
+      })
+    }
+  }
+
+  updateCumulativeScore(pinsHit) {
     let scores = this.state.score;
     let currentRoll = this.state.currentRoll;
     let pinsLeft = this.state.pinsLeft;
@@ -93,9 +120,6 @@ export class App extends React.Component {
 
     // Calculates bonuses and cumulative score for each frame
     for (var i = 0; i < 10; i++) {
-
-
-
 
       if (scores[i].strike === true) {
         // Strikes
@@ -131,7 +155,7 @@ export class App extends React.Component {
       } else if (scores[i].spare === true) {
         // Spares
         // First frame
-        if (frame === 0) {
+        if (i === 0) {
           scores[i].bonus = scores[i + 1].r1;
           scores[i].frameScore = scores[i].r1 + scores[i].r2 + scores[i].bonus;
         } else {
@@ -185,8 +209,8 @@ export class App extends React.Component {
       <div className="container">
         <h1>Bowling</h1>
         <Scoreboard score={this.state.score} />
-        <Status currentFrame={this.state.currentFrame} currentRoll={this.state.currentRoll} />
-        <RollerNums pinsLeft={this.state.pinsLeft} handleClick={this.handleClick} />
+        <Status gameOver={this.state.gameOver} currentFrame={this.state.currentFrame} currentRoll={this.state.currentRoll} />
+        <RollerNums gameOver={this.state.gameOver} pinsLeft={this.state.pinsLeft} handleClick={this.handleClick} />
       </div>
     )
   }
